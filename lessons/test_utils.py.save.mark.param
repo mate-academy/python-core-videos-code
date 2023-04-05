@@ -1,0 +1,73 @@
+import pytest
+
+from utils import add_css_class
+
+
+class TestAddCssClass:
+    @pytest.mark.parametrize(
+        "initial_classes,class_to_add,expected_classes",
+        [
+            pytest.param(
+                "joke new",
+                "active",
+                "joke new active",
+                id="should add new class"
+            ),
+            pytest.param(
+                "joke new",
+                "new",
+                "joke new",
+                id="should not_add existing class"
+            ),
+            pytest.param(
+                "joke new active",
+                "ok",
+                "joke new active ok",
+                id="should add class which is part of another one"
+            )
+        ]
+    )
+    def test_modify_classes_correctly(
+        self,
+        initial_classes,
+        class_to_add,
+        expected_classes
+    ):
+        el = {
+            "classes": initial_classes,
+            "is_hidden": False,
+        }
+
+        add_css_class(el, class_to_add)
+
+        assert el["classes"] == expected_classes
+
+    # def test_should_add_new_class(self):
+    #     el = {
+    #         "classes": "joke new",  # initial_classes
+    #         "is_hidden": False,
+    #     }
+    #
+    #     add_css_class(el, "active")  # class_to_add
+    #
+    #     assert el["classes"] == "joke new active"  # expected_classes
+    #
+    # def test_should_not_add_existing_class(self):
+    #     el = {
+    #         "classes": "joke new",
+    #         "is_hidden": False,
+    #     }
+    #
+    #     add_css_class(el, "new")
+    #
+    #     assert el["classes"] == "joke new"
+    #
+    # def test_should_add_class_which_is_part_of_another_one(self):
+    #     el = {
+    #         "classes": "joke new active",
+    #         "is_hidden": False,
+    #     }
+    #
+    #     add_css_class(el, "ok")
+    #
+    #     assert el["classes"] == "joke new active ok"

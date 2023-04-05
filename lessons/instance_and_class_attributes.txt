@@ -1,0 +1,24 @@
+Dog: #0
+
+hatiko: #1
+buzo: #2
+
+#1 {
+    breed: "Akita"
+    color: "brown"
+    animal: "cat"
+    __class__: #0
+}
+
+#2 {
+    breed: "Bulldog"
+    color: "black"
+    __class__: #0
+}
+
+
+#0 {
+    animal: "dog"
+    bark: <func(self)>
+}
+

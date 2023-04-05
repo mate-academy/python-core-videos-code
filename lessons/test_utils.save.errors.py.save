@@ -1,0 +1,66 @@
+import pytest
+
+from utils import add_css_class
+
+
+class TestAddCssClass:
+    @pytest.mark.parametrize(
+        "initial_classes,class_to_add,expected_classes",
+        [
+            pytest.param(
+                "joke new",
+                "active",
+                "joke new active",
+                id="should add new class"
+            ),
+            pytest.param(
+                "joke new",
+                "new",
+                "joke new",
+                id="should not add existing class"
+            ),
+            pytest.param(
+                "joke new active",
+                "ok",
+                "joke new active ok",
+                id="should add class which is part of another one"
+            )
+        ]
+    )
+    def test_modify_classes_correctly(
+        self,
+        initial_classes,
+        class_to_add,
+        expected_classes
+    ):
+        el = {
+            "classes": initial_classes,
+            "is_hidden": False,
+        }
+
+        add_css_class(el, class_to_add)
+
+        assert el["classes"] == expected_classes
+
+    @pytest.mark.parametrize(
+        "initial_element,expected_error",
+        [
+            pytest.param(
+                {"is_hidden": False},
+                KeyError,
+                id="should raise error when no key `classes`"
+            ),
+            pytest.param(
+                {"classes": 1, "is_hidden": False},
+                AttributeError,
+                id="should raise error when `classes` is integer"
+            )
+        ]
+    )
+    def test_raising_errors_correctly(
+        self,
+        initial_element,
+        expected_error
+    ):
+        with pytest.raises(expected_error):
+            add_css_class(initial_element, "")
